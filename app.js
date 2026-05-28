@@ -98,7 +98,7 @@ app.use((req,res,next)=>{
 // })
 
 app.get("/", (req,res)=>{
-    res.send("App Working");
+    res.render("/listings");
 });
 
 app.use("/listings",listingsRouter);
