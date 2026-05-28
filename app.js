@@ -17,6 +17,8 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User =  require("./models/user.js");
 
+
+
 const listingsRouter = require("./Routes/listing.js");
 const reviewsRouter = require("./Routes/reviews.js");
 const userRouter = require("./Routes/user.js");
@@ -26,7 +28,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride("_method"))
 app.engine("ejs",ejsMate)
-app.use(express.static(path.join(__dirname, "/public")));
+app.use(express.static(path.join(__dirname, "public")));
 
 const dbUrl = process.env.ATLASDB_URL;
 
@@ -95,6 +97,10 @@ app.use((req,res,next)=>{
 //     res.send(registerUser);
 // })
 
+app.get("/", (req,res)=>{
+    res.send("App Working");
+});
+
 app.use("/listings",listingsRouter);
 app.use("/listings/:id/reviews",reviewsRouter);
 app.use("/",userRouter);
@@ -120,6 +126,11 @@ app.use((err,req,res,next)=>{
     res.status(statusCode).render("listings/error.ejs",{message});
 });
 
-app.listen(8080, () => {
-    console.log("app is listening on port 8080");
+// app.listen(8080, () => {
+//     console.log("app is listening on port 8080");
+// });
+const port = process.env.PORT;
+
+app.listen(port, () => {
+   console.log(`app is listening on port ${port}`);
 });
