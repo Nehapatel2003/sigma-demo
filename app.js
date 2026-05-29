@@ -101,6 +101,7 @@ app.get("/", (req,res)=>{
     res.redirect("/listings");
 });
 
+
 app.use("/listings",listingsRouter);
 app.use("/listings/:id/reviews",reviewsRouter);
 app.use("/",userRouter);
@@ -116,20 +117,15 @@ app.use((req, res, next) => {
 //     // res.status(statusCode).send(message);
 // })
 app.use((err,req,res,next)=>{
-    console.log("========== ERROR ==========");
     console.log(err);
-    console.log(err.stack);
-    let { statusCode = 500, message = "Something went wrong!" } = err;
-    if(res.headersSent){
-        return next(err);
-    }
-    res.status(statusCode).render("listings/error.ejs",{message});
+
+    res.status(500).send(err.message);
 });
 
 // app.listen(8080, () => {
 //     console.log("app is listening on port 8080");
 // });
-const port = process.env.PORT;
+const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
    console.log(`app is listening on port ${port}`);
